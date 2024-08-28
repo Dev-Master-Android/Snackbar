@@ -1,4 +1,5 @@
 package com.example.snackbar
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -29,18 +30,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         deleteButton.setOnClickListener {
-            showDeleteConfirmationDialog()
+            showDeleteConfirmationSnackbar()
         }
     }
 
-    private fun showDeleteConfirmationDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Подтвердите удаление")
-            .setPositiveButton("Удалить") { _, _ ->
-                outputField.text = ""
-                Snackbar.make(findViewById(android.R.id.content), "Данные удалены", Snackbar.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Отмена", null)
-        builder.create().show()
+    @SuppressLint("SetTextI18n")
+    private fun showDeleteConfirmationSnackbar() {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), "Подтвердите удаление", Snackbar.LENGTH_LONG)
+        snackbar.setAction("Удалить") {
+            outputField.text = ""
+            Snackbar.make(findViewById(android.R.id.content), "Данные удалены", Snackbar.LENGTH_SHORT).show()
+        }
+        snackbar.setActionTextColor(resources.getColor(android.R.color.holo_red_light))
+        snackbar.show()
     }
 }
